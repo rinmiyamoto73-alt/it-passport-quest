@@ -378,3 +378,7 @@ dialog#modal{width:min(420px,92vw)}
 .steps small{font-size:9px;white-space:nowrap}
 .steps .done{border-color:var(--mint);color:var(--mint)}
 .steps .now{border-color:var(--gold);color:var(--gold);background:#2a2610}
+
+/* キャラクターはベクター画像（SVG）。ドットのにじみ防止は不要 */
+img.px[src^="data:image/svg"]{image-rendering:auto}
+.buddy-mini{padding:0!important;background:none!important;border:0!important;width:44px!important}
