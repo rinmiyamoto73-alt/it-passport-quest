@@ -9,7 +9,7 @@ const AREA_KEYS=Object.keys(AREAS);
 const ALL=[...(window.PAST||[]),...QUESTIONS].filter(q=>SUBS[q.sub]&&q.options?.length===4&&Number.isInteger(q.answer));
 const QMAP=new Map(ALL.map(q=>[q.id,q]));
 const isObj=v=>!!v&&typeof v==='object'&&!Array.isArray(v);
-const blank=()=>({version:1,xp:0,answers:{},daily:{},sessions:[],stages:{},monsters:{},gold:0,items:{},look:{},title:null,buddies:{},buddy:null,eggs:[],chestBox:[],chests:{opened:0,pity:0},streak:{count:0,best:0,last:null,freezes:1},login:{last:null,days:0},missions:null,story:{seen:[]},mocks:[],restAt:0,goal:30});
+const blank=()=>({version:1,xp:0,answers:{},daily:{},sessions:[],stages:{},monsters:{},gold:0,items:{},look:{},title:null,buddies:{},buddy:null,eggs:[],chestBox:[],chests:{opened:0,pity:0},streak:{count:0,best:0,last:null,freezes:1},login:{last:null,days:0},missions:null,story:{seen:[]},mocks:[],restAt:0,goal:30,dayStats:{},lastAct:0});
 let state=blank(),storageOK=true;
 function load(){try{const raw=localStorage.getItem(KEY);if(!raw)return;const p=JSON.parse(raw);if(p.version!==1||!Number.isFinite(p.xp)||p.xp<0||!isObj(p.answers)||!isObj(p.daily)||!Array.isArray(p.sessions))return;const b=blank();state={...b,...p};for(const k of Object.keys(b))if(isObj(b[k])&&!isObj(state[k]))state[k]=b[k];else if(Array.isArray(b[k])&&!Array.isArray(state[k]))state[k]=b[k];
 for(const [id,a] of Object.entries(state.answers))if(!isObj(a)||!Number.isInteger(a.attempts)||!Number.isInteger(a.correct)||a.correct<0||a.attempts<a.correct)delete state.answers[id];else{if(!Number.isInteger(a.box))a.box=a.review?0:Math.min(2,a.correct);if(!a.due)a.due=a.last||new Date().toISOString();}
@@ -27,7 +27,12 @@ const ans=q=>state.answers[q.id];
 const isDue=q=>{const a=ans(q);return !!a&&new Date(a.due).getTime()<=Date.now();};
 const mastered=q=>(ans(q)?.box||0)>=2;
 function dueQuestions(){return ALL.filter(isDue).sort((a,b)=>(ans(a).box-ans(b).box)||new Date(ans(a).due)-new Date(ans(b).due));}
-function record(q,ok){const a=state.answers[q.id]||{attempts:0,correct:0,box:0};const fresh=!a.attempts;a.attempts++;if(ok)a.correct++;a.box=ok?Math.min(5,(a.box||0)+1):0;a.review=!ok;a.last=new Date().toISOString();a.due=new Date(Date.now()+BOX_DAYS[a.box]*DAY).toISOString();a.lastOk=ok;state.answers[q.id]=a;state.daily[dayKey()]=(state.daily[dayKey()]||0)+1;touchStreak();bump('solved');if(ok)bump('first');if(fresh)bump('new');growBuddy();return fresh;}
+// 1日ごとの記録：解いた数・一発正解の数・勉強時間（回答の間かくを足す。3分以上あいたら休けいとみなして40秒だけ足す）
+const BREAK_MS=18e4,FIRST_MS=4e4;
+function dayStat(k=dayKey()){return state.dayStats[k]||(state.dayStats[k]={q:0,ok:0,ms:0});}
+function addStudyTime(ms){dayStat().ms+=Math.max(0,ms);}
+function tickStudy(){const now=Date.now(),gap=now-(state.lastAct||0);addStudyTime(gap<BREAK_MS?gap:FIRST_MS);state.lastAct=now;}
+function record(q,ok,{noTime=false}={}){const ds=dayStat();ds.q++;if(ok)ds.ok++;if(!noTime)tickStudy();const a=state.answers[q.id]||{attempts:0,correct:0,box:0};const fresh=!a.attempts;a.attempts++;if(ok)a.correct++;a.box=ok?Math.min(5,(a.box||0)+1):0;a.review=!ok;a.last=new Date().toISOString();a.due=new Date(Date.now()+BOX_DAYS[a.box]*DAY).toISOString();a.lastOk=ok;state.answers[q.id]=a;state.daily[dayKey()]=(state.daily[dayKey()]||0)+1;touchStreak();bump('solved');if(ok)bump('first');if(fresh)bump('new');growBuddy();return fresh;}
 // 出題の優先順：忘れかけ（期限切れ）→ まだ解いていない → 久しぶり。count問を選ぶ
 function choose(pool,count){const now=Date.now(),score=q=>{const a=ans(q);if(!a)return 1+Math.random();if(new Date(a.due).getTime()<=now)return a.box*.1+Math.random()*.05;return 2+a.box+Math.random();};return pool.map(q=>[score(q),q]).sort((a,b)=>a[0]-b[0]).slice(0,count).map(x=>x[1]);}
 function subPool(sub){return ALL.filter(q=>q.sub===sub);}

@@ -382,3 +382,30 @@ dialog#modal{width:min(420px,92vw)}
 /* キャラクターはベクター画像（SVG）。ドットのにじみ防止は不要 */
 img.px[src^="data:image/svg"]{image-rendering:auto}
 .buddy-mini{padding:0!important;background:none!important;border:0!important;width:44px!important}
+/* 1日の勉強の記録 */
+.today-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center;margin-bottom:10px}
+.today-strip>div{padding:6px 2px;background:#0d1230;border:2px solid var(--dim);border-radius:6px}
+.today-strip b{display:block;font-weight:normal;font-size:20px;line-height:1.2;color:var(--white)}
+.today-strip b small{font-size:11px;color:var(--muted);margin-left:2px}
+.today-strip span{font-size:10px;color:var(--muted)}
+.today-strip.big b{font-size:26px}
+.sub-title{font-size:14px;color:var(--gold);margin:14px 0 0}
+.chart{margin:4px 0 14px}
+.chart figcaption{font-size:13px;color:var(--muted);margin-bottom:6px}
+.chart-plot{position:relative;display:grid;grid-template-columns:repeat(14,1fr);gap:2px;align-items:end;height:120px;padding-top:4px;border-bottom:2px solid var(--dim)}
+.goal-line{position:absolute;left:0;right:0;border-top:2px dashed rgba(255,211,77,.55);pointer-events:none}
+.goal-line span{position:absolute;right:0;top:-16px;font-size:9px;color:var(--gold);font-style:normal}
+.bar-col{position:relative;height:100%;display:flex;align-items:flex-end;justify-content:center;background:none;border:0;padding:0}
+.bar{display:block;width:100%;max-width:16px;min-height:0;background:var(--teal);border-radius:4px 4px 0 0}
+.bar-col.today .bar{background:var(--gold)}
+.bar-col .tip{display:none;position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);z-index:3;white-space:nowrap;padding:4px 8px;background:var(--win);border:2px solid var(--line);border-radius:6px;font-size:11px;line-height:1.5;color:var(--white)}
+.bar-col:first-child .tip,.bar-col:nth-child(2) .tip{left:0;transform:none}
+.bar-col:last-child .tip,.bar-col:nth-last-child(2) .tip{left:auto;right:0;transform:none}
+.bar-col:hover .tip,.bar-col:focus .tip{display:block}
+.bar-col:hover .bar,.bar-col:focus .bar{filter:brightness(1.25)}
+.chart-x{display:grid;grid-template-columns:repeat(14,1fr);gap:2px;text-align:center;font-size:10px;color:var(--muted);margin-top:2px}
+.day-table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+.day-table th{font-weight:normal;color:var(--muted);font-size:11px;text-align:right;padding:4px}
+.day-table td{text-align:right;padding:5px 4px;border-top:1px dashed var(--dim)}
+.day-table th:first-child,.day-table td:first-child{text-align:left}
+.bar-col.zero .bar{display:none}
