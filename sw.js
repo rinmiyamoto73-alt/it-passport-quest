@@ -1,6 +1,6 @@
 // オフラインでも遊べるよう、アプリのファイルを端末に保存する。ファイルを更新したら VERSION を上げる
-const VERSION='ipq-v6';
-const FILES=['./','index.html','style.css','questions.js','pastq.js','world.js','sprites.js','audio.js','fx.js','engine.js','app.js','manifest.webmanifest','img/icon-192.png','img/icon-512.png','img/r04-015.png','img/r04-032.png','img/r04-043.png','img/r04-079.png','img/r04-090.png','img/r04-097.png','img/r05-041.png','img/r05-059.png','img/r05-086.png','img/r06-041.png','img/r06-060.png','img/r06-067.png','img/r08-072.png'];
+const VERSION='ipq-v7';
+const FILES=['./','index.html','style.css','questions.js','pastq.js','world.js','spritedata.js','sprites.js','audio.js','fx.js','engine.js','app.js','manifest.webmanifest','img/icon-192.png','img/icon-512.png','img/r04-015.png','img/r04-032.png','img/r04-043.png','img/r04-079.png','img/r04-090.png','img/r04-097.png','img/r05-041.png','img/r05-059.png','img/r05-086.png','img/r06-041.png','img/r06-060.png','img/r06-067.png','img/r08-072.png'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(VERSION).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==VERSION).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 // 自分のファイルはネット優先（新しい版を取りに行き、つながらなければ保存した版）。フォントなどは保存した版を優先

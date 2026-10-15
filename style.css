@@ -70,7 +70,7 @@ body.in-battle main{padding-top:calc(12px + env(safe-area-inset-top))}
 .plate{display:grid;place-items:center;width:66px;height:66px;background:rgba(8,10,28,.78);border:3px solid var(--line);border-radius:50%;box-shadow:0 4px 0 var(--edge);transition:transform .1s}
 .plate .px{width:44px;height:44px}
 .node.boss .plate{width:80px;height:80px;border-color:var(--gold)}
-.node.boss .plate .px{width:48px;height:60px}
+.node.boss .plate .px{width:58px;height:58px}
 .node.cleared .plate{border-color:var(--mint)}
 .node:disabled .plate{background:rgba(0,0,0,.65);border-color:#5a5a6a}
 .node:disabled .px{filter:brightness(0) invert(1);opacity:.28}
@@ -105,7 +105,7 @@ body.in-battle main{padding-top:calc(12px + env(safe-area-inset-top))}
 .foe-status small{font-size:11px;color:var(--muted);white-space:nowrap}
 .foe{position:absolute;z-index:1;left:0;right:0;bottom:15%;width:max-content;margin:0 auto}
 .foe .px{width:128px;height:128px;animation:idle calc(1.4s - var(--h,0)*.18s) steps(2) infinite}
-.foe.boss .px{width:136px;height:170px}
+.foe.boss .px{width:168px;height:168px}
 .foe.appear{animation:appear .6s steps(5) both}
 .foe.hit{animation:hitFlash .45s steps(1)}
 .foe.lunge{animation:lunge .4s}
@@ -138,7 +138,7 @@ body.in-battle main{padding-top:calc(12px + env(safe-area-inset-top))}
 .victory{text-align:center;margin-top:10px}
 .v-title{font-size:24px;color:var(--gold)}
 .v-foe{width:96px;height:96px;margin:10px auto 0;opacity:.3;filter:grayscale(1)}
-.v-foe.boss{height:120px}
+.v-foe.boss{width:120px;height:120px}
 .victory>p{margin:4px 0}
 .v-stars{font-size:40px;line-height:1.2;color:var(--gold)}
 .v-stars span{display:inline-block;margin:0 4px;animation:starPop .45s both}
@@ -153,7 +153,7 @@ body.in-battle main{padding-top:calc(12px + env(safe-area-inset-top))}
 .zukan{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-bottom:20px}
 .mon{margin:0;padding:12px;text-align:center}
 .mon .px{width:72px;height:72px;margin:0 auto 6px}
-.mon.boss .px{height:90px}
+.mon.boss .px{width:84px;height:84px}
 .mon.unknown .px{filter:brightness(0);opacity:.45}
 .mon b{display:block;font-weight:normal;font-size:14px}
 .mon small{display:block;font-size:11px;line-height:1.6;color:var(--muted);margin-top:4px}
@@ -225,12 +225,12 @@ body[data-hype="5"] .scene{animation:rainbow 1.6s linear infinite}
 .sound-toggle span{display:none}
 .scene{height:230px}
 .foe .px{width:112px;height:112px}
-.foe.boss .px{width:120px;height:150px}
+.foe.boss .px{width:148px;height:148px}
 .q{font-size:16px}
 .choice{font-size:14px}
 .zukan{grid-template-columns:1fr 1fr;gap:10px}
 .mon .px{width:60px;height:60px}
-.mon.boss .px{height:75px}
+.mon.boss .px{width:68px;height:68px}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
